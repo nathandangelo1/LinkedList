@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 class LinkedList
@@ -15,6 +16,117 @@ class LinkedList
     public LinkedList()
     {
     }
+
+    public static LinkedList operator +(LinkedList one, LinkedList two)
+    {
+        if (one._head == null || two._head == null)
+        {
+            throw new NullReferenceException();
+        }
+
+        Node currentNode = one._head;
+
+        int i = 0;
+        while (i < one._count - 1)
+        {
+            currentNode = currentNode.Next;
+            i++;
+        }
+        currentNode.Next = two._head;
+        one._count += two._count;
+
+        return one;
+    }
+
+    public override string ToString()
+    {
+        if (_head == null)
+        {
+            throw new NullReferenceException();
+        }
+        string myString = "[ ";
+        Node currentNode = _head;
+
+        int i = 0;
+        while (i < _count - 1)
+        {
+            myString += currentNode.ToString() + ", ";
+
+            currentNode = currentNode.Next;
+            i++;
+        }
+
+        myString += currentNode.ToString() + " ]";
+        return myString;
+    }
+
+    public object[] ToArray()
+    {
+        if (_head == null)
+        {
+            throw new NullReferenceException();
+        }
+
+        object[] objects = new object[_count];
+
+        Node currentNode = _head;
+
+        int i = 0;
+        while (i < _count)
+        {
+            objects[i] = currentNode.Data;
+
+            currentNode = currentNode.Next;
+            i++;
+        }
+        return objects;
+    }
+
+    public Boolean RemoveAll(object element)
+    {
+        if (_head == null)
+        {
+            throw new NullReferenceException();
+        }
+
+        int index = IndexOf(element);
+
+        while (index != -1)
+        {
+            
+            if (index == -1)
+            {
+                return false;
+            }
+            
+            object elem = Remove(index);
+            
+            index = IndexOf(element);
+        }
+
+        return true;
+    }
+
+    public Boolean RemoveValue(object element)
+    {
+        if (_head == null)
+        {
+            throw new NullReferenceException();
+        }
+
+        int index = IndexOf(element);
+
+        if (index == -1)
+        {
+            return false;
+        }
+
+        object elem = Remove(index);
+
+        return true;
+    }
+
+
     public object RemoveLast()
     {
         if (_head == null)
@@ -35,8 +147,8 @@ class LinkedList
         Count -= 1;
         Node returnValue = newLast.Next;
         newLast.Next = null;
+
         return returnValue.Data;
-        
     }
 
     public object RemoveFirst()
@@ -51,7 +163,8 @@ class LinkedList
         Count -= 1;
         return firstNode.Data;
     }
-    public void Remove(int index)
+
+    public object Remove(int index)
     {
         if (_head == null)
         {
@@ -61,24 +174,28 @@ class LinkedList
         Node currentNode = _head;
         Node previous = new();
         Node next = new();
+        Object returnElm = null;
 
         int i = 0;
         while (i < Count)
         {
-            if(i == index - 1)
+            if (i == index - 1)
             {
                 previous = currentNode;
+                returnElm = currentNode.Next.Data;
             }
-            if(i == index + 1)
+            if (i == index + 1)
             {
                 next = currentNode;
+                break;
             }
             currentNode = currentNode.Next;
             i++;
         }
-
         previous.Next = next;
         Count -= 1;
+
+        return returnElm;
 
     }
 

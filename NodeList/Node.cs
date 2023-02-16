@@ -4,6 +4,10 @@
     private Node _next = null;
 
 
+    public string ToString()
+    {
+        return _data.ToString();
+    }
     public object Data
     {
         get { return _data; }
