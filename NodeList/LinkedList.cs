@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-class LinkedList
+public class LinkedList2 /*: LinkedList<object>*/
 {
     private Node _head = null;
     private int _count = 0;
@@ -13,11 +13,11 @@ class LinkedList
         private set { _count = value; }
     }//end property
 
-    public LinkedList()
+    public LinkedList2()
     {
     }
 
-    public static LinkedList operator +(LinkedList one, LinkedList two)
+    public static LinkedList2 operator +(LinkedList2 one, LinkedList2 two)
     {
         if (one._head == null || two._head == null)
         {
@@ -82,7 +82,7 @@ class LinkedList
         return objects;
     }
 
-    public Boolean RemoveAll(object element)
+    public bool RemoveAll(object element)
     {
         if (_head == null)
         {
@@ -107,7 +107,7 @@ class LinkedList
         return true;
     }
 
-    public Boolean RemoveValue(object element)
+    public bool RemoveValue(object element)
     {
         if (_head == null)
         {
