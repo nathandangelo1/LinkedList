@@ -1,7 +1,9 @@
-﻿class Node
+﻿using System;
+
+class GenericNode<T>
 {
-    private object _data = null;
-    private Node _next = null;
+    private <T> _data = null;
+    private GenericNode _next = null;
 
 
     public string ToString()
@@ -13,20 +15,19 @@
         get { return _data; }
         set { _data = value; }
     }//end property
-    public Node Next
+    public GenericNode Next
     {
         get { return _next; }
         set { _next = value; }
     }//end property
 
-    public Node(object initialData)
+    public GenericNode<T>(<T> initialData)
     {
         _data = initialData;
     }//end constructor
 
-    public Node()
+    public GenericNode()
     {
     }//end constructor
 
-
-}//end class
+}

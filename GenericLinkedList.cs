@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-public class LinkedList<T> 
+class GenericLinkedList<T>
 {
-    private GenericNode<T> _head = null;
+    private GenericNode _head = null;
     private int _count = 0;
 
     public int Count
@@ -13,24 +13,24 @@ public class LinkedList<T>
         private set { _count = value; }
     }//end property
 
-    public T this[int index]
+    public object this[int index]
     {
         get { return Get(index); }
         set { Set(index, value); }
     }
 
-    public LinkedList()
+    public GenericLinkedList<T>()
     {
     }
 
-    public static LinkedList<T> operator +(LinkedList<T> one, LinkedList<T> two)
+    public static GenericLinkedList<T> operator +(LinkedList2 one, LinkedList2 two)
     {
         if (one._head == null || two._head == null)
         {
             throw new NullReferenceException();
         }
 
-        GenericNode<T> currentNode = one._head;
+        GenericNode currentNode = one._head;
 
         int i = 0;
         while (i < one._count - 1)
@@ -51,7 +51,7 @@ public class LinkedList<T>
             throw new NullReferenceException();
         }
         string myString = "[ ";
-        GenericNode<T> currentNode = _head;
+        GenericNode currentNode = _head;
 
         int i = 0;
         while (i < _count - 1)
@@ -66,29 +66,29 @@ public class LinkedList<T>
         return myString;
     }
 
-    public T[] ToArray()
+    public object[] ToArray()
     {
         if (_head == null)
         {
             throw new NullReferenceException();
         }
 
-        T[] elements = new T[_count];
+        object[] objects = new object[_count];
 
-        GenericNode<T> currentNode = _head;
+        GenericNode currentNode = _head;
 
         int i = 0;
         while (i < _count)
         {
-            elements[i] = currentNode.Data;
+            objects[i] = currentNode.Data;
 
             currentNode = currentNode.Next;
             i++;
         }
-        return elements;
+        return objects;
     }
 
-    public bool RemoveAll(T element)
+    public bool RemoveAll(object element)
     {
         if (_head == null)
         {
@@ -105,7 +105,7 @@ public class LinkedList<T>
                 return false;
             }
 
-            T elem = Remove(index);
+            object elem = Remove(index);
 
             index = IndexOf(element);
         }
@@ -113,7 +113,7 @@ public class LinkedList<T>
         return true;
     }
 
-    public bool RemoveValue(T element)
+    public bool RemoveValue(object element)
     {
         if (_head == null)
         {
@@ -127,20 +127,20 @@ public class LinkedList<T>
             return false;
         }
 
-        T elem = Remove(index);
+        object elem = Remove(index);
 
         return true;
     }
 
 
-    public T RemoveLast()
+    public object RemoveLast()
     {
         if (_head == null)
         {
             throw new NullReferenceException();
         }
 
-        GenericNode<T> currentNode = _head;
+        GenericNode currentNode = _head;
 
         int i = 0;
         while (i < Count - 2)
@@ -149,38 +149,38 @@ public class LinkedList<T>
             i++;
         }
 
-        GenericNode<T> newLast = currentNode;
+        GenericNode newLast = currentNode;
         Count -= 1;
-        GenericNode<T> returnValue = newLast.Next;
+        GenericNode returnValue = newLast.Next;
         newLast.Next = null;
 
         return returnValue.Data;
     }
 
-    public T RemoveFirst()
+    public object RemoveFirst()
     {
         if (_head == null)
         {
             throw new NullReferenceException();
         }
 
-        GenericNode<T> firstNode = _head;
+        GenericNode firstNode = _head;
         _head = _head.Next;
         Count -= 1;
         return firstNode.Data;
     }
 
-    public T Remove(int index)
+    public object Remove(int index)
     {
         if (_head == null)
         {
             throw new NullReferenceException();
         }
 
-        GenericNode<T> currentNode = _head;
-        GenericNode<T> previous = new();
-        GenericNode<T> next = new();
-        T returnElm = default(T);
+        GenericNode currentNode = _head;
+        GenericNode previous = new();
+        GenericNode next = new();
+        object returnElm = null;
 
 
         int i = 0;
@@ -206,14 +206,14 @@ public class LinkedList<T>
 
     }
 
-    public int GetCountOf(T element)
+    public int GetCountOf(object element)
     {
         if (_head == null)
         {
             throw new NullReferenceException();
         }
 
-       GenericNode<T>currentNode = _head;
+        GenericNode currentNode = _head;
         int index = 0;
         int count = 0;
 
@@ -238,14 +238,14 @@ public class LinkedList<T>
 
     }
 
-    public int IndexOf(T element)
+    public int IndexOf(object element)
     {
         if (_head == null)
         {
             throw new NullReferenceException();
         }
 
-       GenericNode<T>currentNode = _head;
+        GenericNode currentNode = _head;
         int index = 0;
 
         while (index < Count)
@@ -262,14 +262,14 @@ public class LinkedList<T>
 
     }
 
-    public T GetLast()
+    public object GetLast()
     {
         if (_head == null)
         {
             throw new NullReferenceException();
         }
 
-       GenericNode<T>currentNode = _head;
+        GenericNode currentNode = _head;
         int index = 0;
 
         while (index < Count - 1)
@@ -277,13 +277,13 @@ public class LinkedList<T>
             currentNode = currentNode.Next;
             index++;
         }
-       GenericNode<T>last = currentNode;
+        GenericNode last = currentNode;
 
         return last.Data;
 
     }
 
-    public T GetFirst()
+    public object GetFirst()
     {
         if (_head == null)
         {
@@ -293,7 +293,7 @@ public class LinkedList<T>
         return _head.Data;
     }
 
-    //private bool ObjectIsEqual(T obj1, T obj2)
+    //private bool ObjectIsEqual(object obj1, object obj2)
     //{
     //    if(obj1.GetHashCode() == obj2.GetHashCode())
     //    {
@@ -305,10 +305,10 @@ public class LinkedList<T>
     //    }
     //}
 
-    public bool Contains(T element)
+    public bool Contains(object element)
     {
         //REFRENCE HEAD OF LIST
-       GenericNode<T>currentNode = _head;
+        GenericNode currentNode = _head;
         int currentIndex = 0;
 
         //LOOP UNTIL END WE REACH THE INDEX
@@ -332,17 +332,17 @@ public class LinkedList<T>
 
     public void Clear()
     {
-       GenericNode<T>newHead = new();
+        GenericNode newHead = new();
         _head = newHead;
         Count = 0;
     }
 
-    public void AddFirst(T element)
+    public void AddFirst(object element)
     {
         Insert(0, element);
     }
 
-    public void Insert(int index, T element)
+    public void Insert(int index, object element)
     {
         //SAFETY CHECKS
         if (index >= Count || index < 0)
@@ -351,14 +351,14 @@ public class LinkedList<T>
         }//end if 
 
         //REFRENCE HEAD OF LIST
-       GenericNode<T>currentNode = _head;
+        GenericNode currentNode = _head;
         int currentIndex = 0;
 
-       GenericNode<T>newNode = new(element);
+        GenericNode newNode = new(element);
 
         if (index == 0)
         {
-           GenericNode<T>oldHead = _head;
+            GenericNode oldHead = _head;
             _head = newNode;
             newNode.Next = oldHead;
         }
@@ -371,7 +371,7 @@ public class LinkedList<T>
                 currentIndex += 1;
             }//end while
 
-           GenericNode<T>newNext = currentNode.Next;
+            GenericNode newNext = currentNode.Next;
 
             currentNode.Next = newNode;
             newNode.Next = newNext;
@@ -379,7 +379,7 @@ public class LinkedList<T>
         }
     }
 
-    public void Set(int index, T element)
+    public void Set(int index, object element)
     {
         //SAFETY CHECKS
         if (index >= Count || index < 0)
@@ -388,7 +388,7 @@ public class LinkedList<T>
         }//end if 
 
         //REFRENCE HEAD OF LIST
-       GenericNode<T>currentNode = _head;
+        GenericNode currentNode = _head;
         int currentIndex = 0;
 
         //LOOP UNTIL END WE REACH THE INDEX
@@ -402,7 +402,7 @@ public class LinkedList<T>
         //return true;
     }
 
-    public T Get(int index)
+    public object Get(int index)
     {
         //SAFETY CHECKS
         if (index >= Count || index < 0)
@@ -411,7 +411,7 @@ public class LinkedList<T>
         }//end if 
 
         //REFRENCE HEAD OF LIST
-       GenericNode<T>currentNode = _head;
+        GenericNode currentNode = _head;
         int currentIndex = 0;
 
         //LOOP UNTIL END WE REACH THE INDEX
@@ -425,10 +425,10 @@ public class LinkedList<T>
         return currentNode.Data;
     }//end method
 
-    public void Add(T value)
+    public void Add(object value)
     {
         //CREATE NEW NODE & FILL ITS DATA
-       GenericNode<T>newNode = new GenericNode<T>(value);
+        GenericNode newNode = new Node(value);
 
         if (_head == null)
         {
@@ -437,7 +437,7 @@ public class LinkedList<T>
         else
         {
             //REFRENCE HEAD OF LIST
-           GenericNode<T>currentNode = _head;
+            GenericNode currentNode = _head;
 
             //LOOP UNTIL END OF LIST
             while (currentNode.Next != null)
@@ -452,4 +452,3 @@ public class LinkedList<T>
         Count += 1;
     }//end method
 }
-
