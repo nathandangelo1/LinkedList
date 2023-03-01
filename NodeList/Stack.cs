@@ -5,33 +5,36 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-internal class Stack<T>
+internal class Queue2<Type>
 {
 
-    private Node<T> _top = null;
-    private Node<T> _bottom;
-    private int _count;
+    private Node<Type> _top = null;
+    private Node<Type> _bottom;
+    private uint _count;
 
-    public Stack() { }
+    public Queue2() { }
+    public Queue2(Type item) 
+    {
+        Push(item); 
+    }
 
     public bool IsEmpty {
         get
         {
-            if (_top == null) return true;
-            else return false;
+            return _top == null;
         }  
     }
 
-    public int Count { get
+    public uint Count { get
         {
             return _count;
         } 
     }
 
-    public void Push(T item)
+    public void Push(Type item)
     {
         //CREATE NEW NODE & FILL ITS DATA
-        Node<T> newNode = new Node<T>(item);
+        Node<Type> newNode = new(item);
 
         if (_top == null)
         {
@@ -40,19 +43,23 @@ internal class Stack<T>
         }
         else
         {
-            Node<T> former = _top;
+            Node<Type> former = _top;
 
             _top = newNode;
             _top.Next = former;
         }//end if
 
         _count++;
-  
     }
 
-    public T Pop()
+    public Type Pop()
     {
-        T popTop = _top.Data;
+        //if (_top == null)
+        //{
+        //    throw new NullReferenceException();
+        //}
+
+        Type popTop = _top.Data;
         _top = _top.Next;
 
         _count--;
@@ -60,9 +67,14 @@ internal class Stack<T>
         return popTop;
     }
 
-    public T Peek()
+    public Type Peek()
     {
-        T peekTop = _top.Data;
+        //if (_top == null)
+        //{
+        //    throw new NullReferenceException();
+        //}
+
+        Type peekTop = _top.Data;
         return peekTop;
     }
 }

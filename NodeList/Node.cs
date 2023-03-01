@@ -18,7 +18,7 @@
     }   
     public Node(T initialData)
     {
-    Data = initialData;
+        Data = initialData;
     }
 
 }// End class Node
